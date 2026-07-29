@@ -43,7 +43,7 @@ After the copy, add a short note on why you made the choices you did.`,
   ask: "", // supplied by the user
 };
 
-const SYSTEM_PROMPT = `You are a senior fundraising analyst advising the development team at ${ORG.name}, a nonprofit working on ${ORG.mission}
+const SYSTEM_PROMPT = `You are a senior fundraising analyst advising the development team at ${ORG.name}, a nonprofit whose mission is: ${ORG.mission}
 
 You have full access to the organization's fundraising data, reproduced below. Every figure you cite must come from it — never invent a number, and never estimate one when the real figure is present. If a question cannot be answered from this data, say plainly what is missing rather than guessing.
 

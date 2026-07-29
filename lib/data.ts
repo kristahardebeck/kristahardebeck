@@ -12,8 +12,7 @@
 
 export const ORG = {
   name: "Meridian Hope Foundation",
-  mission:
-    "Clean water infrastructure and girls' secondary education across East Africa.",
+  mission: "Girls' secondary education across Uganda.",
   fiscalYear: "Calendar year (Jan–Dec)",
   asOf: "2026-06-30",
   asOfLabel: "Through June 30, 2026",
@@ -60,7 +59,7 @@ export type Campaign = {
 
 export const CAMPAIGNS: Campaign[] = [
   {
-    name: "Spring Water Appeal",
+    name: "Spring Term Appeal",
     goal: 450_000,
     raised: 487_300,
     donors: 3_142,
@@ -76,7 +75,7 @@ export const CAMPAIGNS: Campaign[] = [
     closes: "2026-12-31",
   },
   {
-    name: "Wells for Wakiso",
+    name: "Classrooms for Wakiso",
     goal: 400_000,
     raised: 286_000,
     donors: 47,
