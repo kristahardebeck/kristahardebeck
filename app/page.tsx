@@ -1,4 +1,5 @@
 import AiAnalyst from "@/components/AiAnalyst";
+import AnalystChat from "@/components/AnalystChat";
 import CampaignProgress from "@/components/CampaignProgress";
 import ChannelMix from "@/components/ChannelMix";
 import DonorMovement from "@/components/DonorMovement";
@@ -127,10 +128,13 @@ export default function Page() {
 
       {/* AI analyst */}
       <section>
-        <SectionHeading note="Ask questions in plain English, or run one of the standing analyses.">
+        <SectionHeading note="Have a conversation with the data, or run one of the standing analyses.">
           Analysis
         </SectionHeading>
-        <AiAnalyst />
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <AnalystChat />
+          <AiAnalyst />
+        </div>
       </section>
 
       {/* Trend + campaigns */}

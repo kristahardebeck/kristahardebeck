@@ -33,11 +33,11 @@ normally.
 
 4. Deploy.
 
-The key is read only inside `app/api/insights/route.ts`, which runs server-side.
-It is never bundled into the browser. Do **not** rename it to `NEXT_PUBLIC_*` —
+The key is read only inside `app/api/chat/route.ts` and `app/api/insights/route.ts`, both
+of which run server-side. It is never bundled into the browser. Do **not** rename it to `NEXT_PUBLIC_*` —
 that would expose it to every visitor.
 
-> **Note on function duration.** The analyst route sets `maxDuration = 60`. Vercel's
+> **Note on function duration.** Both analyst routes set `maxDuration = 60`. Vercel's
 > Hobby plan caps serverless functions at 60s, which is enough for these analyses.
 > If you extend the prompts and hit a timeout, raise `maxDuration` (Pro allows more)
 > or lower the analysis scope.
@@ -49,14 +49,52 @@ that would expose it to every visitor.
 | Section | Contents |
 |---|---|
 | **Headline metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
-| **Analysis** | The AI analyst: four standing analyses plus free-form Q&A |
+| **Analysis** | Conversational analyst with tool calling, plus four one-shot standing analyses |
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
 | **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
 | **Opportunity** | Major gift pipeline, LYBUNT and SYBUNT totals, top donors table |
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
-## The AI analyst
+## The analyst chat (conversational, with tools)
+
+`POST /api/chat` takes `{ messages }` and streams **NDJSON** back — one JSON event per line.
+
+This is a multi-turn conversation, and Claude answers by *calling tools* rather than doing
+arithmetic in prose. Ask "do we hit $4M if December is 15% soft?" and it calls
+`project_year_end`, gets $3,909,379 computed in TypeScript, and explains the $90,621 gap.
+Follow up with "what if it's only 5%?" and it re-runs the tool with new assumptions,
+keeping everything it already worked out.
+
+**Tools** (`lib/tools.ts` — pure functions over `lib/data.ts`, no I/O):
+
+| Tool | What it computes |
+|---|---|
+| `project_year_end` | Full-year projection from six months of actuals, with second-half and December adjustments, against an optional target |
+| `get_campaign_detail` | Gap to goal, days left, required daily rate, gifts needed at the current average |
+| `get_segment_detail` | Average gift, revenue share, retention, revenue per retained donor |
+| `estimate_recapture` | Value of winning back LYBUNT/SYBUNT, or closing pipeline, at a given rate |
+| `compare_months` | Month-over-month or range totals across years |
+| `get_channel_mix` | Revenue, gift count, average gift and share per channel |
+
+**Event types on the wire:**
+
+| Event | Meaning |
+|---|---|
+| `{t:"text", v}` | A text delta — append it |
+| `{t:"tool", name, label}` | Claude called a tool; `label` is the human-readable chip shown in the UI |
+| `{t:"history", messages}` | The turn's full transcript (including `tool_use`/`tool_result` blocks) to send back next turn |
+| `{t:"error", v}` | Failure mid-stream |
+| `{t:"done"}` | Finished |
+
+The client stores `history` verbatim and returns it on the next message, so follow-ups keep
+the tool results in context. The agentic loop is capped at 6 rounds and 40 messages.
+
+Why tools instead of letting the model do the math: a projection stated in prose drifts, and
+a fundraising number that is subtly wrong is worse than no number. The tools do the
+arithmetic deterministically and hand back the working; the model composes and explains it.
+
+## The standing analyses (one-shot)
 
 `POST /api/insights` takes `{ mode, question? }` and streams Markdown back as
 plain text.
