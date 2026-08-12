@@ -1,4 +1,3 @@
-import AiAnalyst from "@/components/AiAnalyst";
 import AnalystChat from "@/components/AnalystChat";
 import CampaignProgress from "@/components/CampaignProgress";
 import ChannelMix from "@/components/ChannelMix";
@@ -91,7 +90,7 @@ export default function Page() {
               lineHeight: 1.15,
             }}
           >
-            Fundraising Performance
+            Fundraising Dashboard
           </h1>
           <p
             style={{
@@ -130,13 +129,10 @@ export default function Page() {
 
       {/* AI analyst */}
       <section>
-        <SectionHeading note="Have a conversation with the data, or run one of the standing analyses.">
+        <SectionHeading note="Run a standing analysis or ask your own question. Answers are computed from the donor file, not estimated.">
           Analysis
         </SectionHeading>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <AnalystChat />
-          <AiAnalyst />
-        </div>
+        <AnalystChat />
       </section>
 
       {/* Trend + campaigns */}

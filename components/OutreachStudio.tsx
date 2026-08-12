@@ -119,9 +119,9 @@ export default function OutreachStudio() {
           </h2>
         </div>
         <p className="card-subtitle" style={{ marginTop: 5 }}>
-          Pick who you are reaching and how. Claude works from that group&rsquo;s real giving
-          history — size, average gift, retention — so the angles and the ask amount fit the
-          audience rather than being generic.
+          Pick who you are reaching and how. Angles are built from that group&rsquo;s real
+          giving history — size, average gift, retention — so the approach and the ask amount
+          fit the audience rather than being generic.
         </p>
       </header>
 

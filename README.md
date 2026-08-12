@@ -1,7 +1,7 @@
 # Meridian Hope Foundation — Fundraising Dashboard
 
 A deployable nonprofit fundraising dashboard: donor segments, campaign progress,
-retention, channel mix, and lapsed-donor opportunity — plus an AI analyst that
+retention, channel mix, and lapsed-donor opportunity — plus an analyst that
 reads the whole dataset and answers questions about it in plain English.
 
 Built with Next.js (App Router), Recharts, and the Anthropic API.
@@ -16,7 +16,7 @@ cp .env.example .env.local     # paste your Anthropic API key into it
 npm run dev                    # http://localhost:3000
 ```
 
-The charts render without any API key. The **AI analyst** panel needs one — without
+The charts render without any API key. The **Fundraising Analyst** and **Outreach** panels need one — without
 it that panel shows a short "not configured" message and everything else works
 normally.
 
@@ -33,11 +33,11 @@ normally.
 
 4. Deploy.
 
-The key is read only inside `app/api/chat/route.ts` and `app/api/insights/route.ts`, both
+The key is read only inside `app/api/chat/route.ts` and `app/api/outreach/route.ts`, both
 of which run server-side. It is never bundled into the browser. Do **not** rename it to `NEXT_PUBLIC_*` —
 that would expose it to every visitor.
 
-> **Note on function duration.** Both analyst routes set `maxDuration = 60`. Vercel's
+> **Note on function duration.** Both API routes set `maxDuration = 60`. Vercel's
 > Hobby plan caps serverless functions at 60s, which is enough for these analyses.
 > If you extend the prompts and hit a timeout, raise `maxDuration` (Pro allows more)
 > or lower the analysis scope.
@@ -49,7 +49,7 @@ that would expose it to every visitor.
 | Section | Contents |
 |---|---|
 | **Headline metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
-| **Analysis** | *Understanding Your Data* — conversational analyst with tool calling — plus four one-shot standing analyses |
+| **Analysis** | *Fundraising Analyst* — one conversational analyst with tool calling, with three standing analyses as conversation starters |
 | **Risk** | Computed risk register: six standing checks with severity, dollar exposure and the triggering threshold |
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
 | **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
@@ -58,7 +58,7 @@ that would expose it to every visitor.
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
-## Understanding Your Data (conversational, with tools)
+## Fundraising Analyst (conversational, with tools)
 
 `POST /api/chat` takes `{ messages }` and streams **NDJSON** back — one JSON event per line.
 
@@ -96,31 +96,17 @@ Why tools instead of letting the model do the math: a projection stated in prose
 a fundraising number that is subtly wrong is worse than no number. The tools do the
 arithmetic deterministically and hand back the working; the model composes and explains it.
 
-## The standing analyses (one-shot)
+### Standing analyses
 
-`POST /api/insights` takes `{ mode, question? }` and streams Markdown back as
-plain text.
+Three presets — **Board brief**, **Risks & opportunities**, **Segment strategy** — are sent as
+ordinary messages into the same conversation, so each one can be interrogated with follow-ups
+and each is grounded by the same tools. They are available at any point in a conversation, not
+just at the start. The chat bubble shows the preset's label; the full instruction goes on the
+wire.
 
-| Mode | What it does |
-|---|---|
-| `brief` | Board-ready summary of the half-year position |
-| `risks` | Revenue leaking out, and money not yet claimed |
-| `segments` | Where to spend the team's remaining time this year |
-| `appeal` | Drafts actual year-end appeal copy for mid-level donors |
-| `ask` | Answers a free-form question from `question` |
-
-Implementation notes:
-
-- Uses **`claude-opus-5`**. Override with the `ANTHROPIC_MODEL` env var.
-- The full dataset is serialized by `dataSummaryForAI()` into the system prompt,
-  marked with `cache_control: ephemeral`. Because that text is byte-stable across
-  requests, repeat analyses read the prompt from cache at roughly a tenth of the
-  input cost.
-- Responses **stream** — the panel renders tokens as they arrive, and the Stop
-  button aborts the request.
-- Failure modes are handled explicitly: a missing key returns a 503 with
-  instructions, and auth / rate-limit / model-not-found errors are translated into
-  readable messages instead of a stack trace.
+There was previously a separate one-shot panel (`/api/insights`) doing the same job without
+tools or memory. It has been removed — the conversational route strictly supersedes it, and
+its appeal-drafting mode is now better served by the Outreach section.
 
 ## The risk register
 

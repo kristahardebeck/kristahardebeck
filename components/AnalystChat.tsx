@@ -9,6 +9,29 @@ type Turn =
   | { kind: "assistant"; text: string; tools: string[] }
   | { kind: "error"; text: string };
 
+/** Standing analyses. Formerly a separate one-shot panel; now conversation
+ *  starters, so any of them can be interrogated with follow-ups. */
+const STANDING = [
+  {
+    label: "Board brief",
+    blurb: "Where we stand at the half-year mark",
+    prompt:
+      "Give me a board-ready summary of where fundraising stands at the half-year mark. Cover, in order: the headline — are we ahead or behind and by how much, with the actual figures; what is driving the result, naming the specific campaigns, channels or segments doing the work; the one thing that most threatens hitting the annual number; and what I should do in the next 30 days. Around 400 words, and lead with the outcome.",
+  },
+  {
+    label: "Risks & opportunities",
+    blurb: "What is leaking and what is unclaimed",
+    prompt:
+      "Walk me through the risks and the unclaimed opportunities sitting in this donor file. For each, give the dollar figure at stake and the evidence in the data that points to it, and rank by size of impact rather than ease. Cover both directions: where revenue is quietly leaking, and where there is money we have not yet gone after. End with a short prioritized list of what to act on first.",
+  },
+  {
+    label: "Segment strategy",
+    blurb: "Where the team's remaining time should go",
+    prompt:
+      "Where should the team concentrate its effort for the rest of the year? For each segment, assess how much revenue it produces relative to the effort it takes, whether its retention is healthy for a segment of that size, and whether we should be growing it, holding it, or letting it shrink. Then give a concrete allocation: if staff time is fixed between now and December, where should it go and what should it come out of? Justify the trade-off with the numbers.",
+  },
+];
+
 const OPENERS = [
   "Do we hit $4M this year if December comes in 15% soft?",
   "Is Classrooms for Wakiso going to make its goal?",
@@ -34,7 +57,7 @@ export default function AnalystChat() {
   }, [turns, activeTools]);
 
   const send = React.useCallback(
-    async (question: string) => {
+    async (question: string, displayAs?: string) => {
       const trimmed = question.trim();
       if (!trimmed || busy) return;
 
@@ -45,7 +68,7 @@ export default function AnalystChat() {
       setDraft("");
       setBusy(true);
       setActiveTools([]);
-      setTurns((t) => [...t, { kind: "user", text: trimmed }]);
+      setTurns((t) => [...t, { kind: "user", text: displayAs ?? trimmed }]);
 
       const outbound = [...wireRef.current, { role: "user" as const, content: trimmed }];
 
@@ -190,13 +213,13 @@ export default function AnalystChat() {
               }}
             />
             <h2 className="card-title" style={{ fontSize: 16 }}>
-              Understanding Your Data
+              Fundraising Analyst
             </h2>
           </div>
           <p className="card-subtitle" style={{ marginTop: 5 }}>
-            A running conversation. Claude runs real calculations against the donor file —
-            projections, pacing, recapture math — and remembers them, so follow-ups build on
-            what it already worked out.
+            Run a standing analysis or just ask. Real calculations happen against the donor
+            file — projections, pacing, recapture math — and the conversation remembers them,
+            so follow-ups build on what was already worked out.
           </p>
         </div>
 
@@ -206,6 +229,32 @@ export default function AnalystChat() {
           </button>
         )}
       </header>
+
+      {/* Standing analyses — available at any point, not just at the start */}
+      <div className="mode-grid" style={{ marginBottom: 16 }}>
+        {STANDING.map((a) => (
+          <button
+            key={a.label}
+            type="button"
+            className="btn"
+            disabled={busy}
+            onClick={() => send(a.prompt, a.label)}
+            style={{ textAlign: "left", padding: "11px 13px", lineHeight: 1.35 }}
+          >
+            <span style={{ display: "block", fontWeight: 600, fontSize: 13.5 }}>{a.label}</span>
+            <span
+              style={{
+                display: "block",
+                fontSize: 12,
+                color: "var(--text-muted)",
+                marginTop: 2,
+              }}
+            >
+              {a.blurb}
+            </span>
+          </button>
+        ))}
+      </div>
 
       {/* Transcript */}
       {turns.length === 0 ? (
@@ -224,7 +273,7 @@ export default function AnalystChat() {
               color: "var(--text-secondary)",
             }}
           >
-            Try one of these, then keep asking follow-ups:
+Or ask something directly — then keep going with follow-ups:
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {OPENERS.map((q) => (
@@ -232,6 +281,7 @@ export default function AnalystChat() {
                 key={q}
                 type="button"
                 className="btn"
+                disabled={busy}
                 onClick={() => send(q)}
                 style={{ fontSize: 12.5, padding: "6px 11px", borderRadius: 999 }}
               >
