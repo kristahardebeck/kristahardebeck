@@ -49,7 +49,7 @@ that would expose it to every visitor.
 | Section | Contents |
 |---|---|
 | **Headline metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
-| **Analysis** | *Understanding your Data* — conversational analyst with tool calling — plus four one-shot standing analyses |
+| **Analysis** | *Understanding Your Data* — conversational analyst with tool calling — plus four one-shot standing analyses |
 | **Risk** | Computed risk register: six standing checks with severity, dollar exposure and the triggering threshold |
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
 | **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
@@ -57,7 +57,7 @@ that would expose it to every visitor.
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
-## Understanding your Data (conversational, with tools)
+## Understanding Your Data (conversational, with tools)
 
 `POST /api/chat` takes `{ messages }` and streams **NDJSON** back — one JSON event per line.
 

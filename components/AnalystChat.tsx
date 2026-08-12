@@ -190,7 +190,7 @@ export default function AnalystChat() {
               }}
             />
             <h2 className="card-title" style={{ fontSize: 16 }}>
-              Understanding your Data
+              Understanding Your Data
             </h2>
           </div>
           <p className="card-subtitle" style={{ marginTop: 5 }}>
