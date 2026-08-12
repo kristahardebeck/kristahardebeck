@@ -49,14 +49,15 @@ that would expose it to every visitor.
 | Section | Contents |
 |---|---|
 | **Headline metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
-| **Analysis** | Conversational analyst with tool calling, plus four one-shot standing analyses |
+| **Analysis** | *Understanding your Data* — conversational analyst with tool calling — plus four one-shot standing analyses |
+| **Risk** | Computed risk register: six standing checks with severity, dollar exposure and the triggering threshold |
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
 | **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
 | **Opportunity** | Major gift pipeline, LYBUNT and SYBUNT totals, top donors table |
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
-## The analyst chat (conversational, with tools)
+## Understanding your Data (conversational, with tools)
 
 `POST /api/chat` takes `{ messages }` and streams **NDJSON** back — one JSON event per line.
 
@@ -119,6 +120,29 @@ Implementation notes:
 - Failure modes are handled explicitly: a missing key returns a 503 with
   instructions, and auth / rate-limit / model-not-found errors are translated into
   readable messages instead of a stack trace.
+
+## The risk register
+
+`lib/risks.ts` runs six checks over the data and assigns a severity to each. Nothing is
+hand-written: swap in real numbers and a healthy item can turn critical on its own. Each
+item publishes the threshold that produced its severity, so the rule can be argued with
+rather than taken on trust.
+
+| Check | Severity rule |
+|---|---|
+| Revenue concentration | Critical above 50% of YTD in the top three donors; serious above 35% |
+| Single-month dependency | Serious when one month carries ≥25% of annual revenue |
+| Largest-segment churn | Serious when the biggest segment by donor count retains under 45% |
+| Unworked lapsed file | Serious when LYBUNT exceeds 25% of YTD revenue |
+| Campaigns behind pace | Flagged under 75% of goal with ≤190 days left |
+| Acquisition pace | Compared against seasonally-adjusted expectation, not a flat half-year |
+
+The register renders with **no API key** — it is deterministic, like the charts. It is also
+injected into both AI prompts, so the chat cannot contradict what the dashboard shows.
+
+There is deliberately **no combined "total exposure" figure**: the items are different units
+over different horizons (one donor's renewal, one month's miss, a year of churn, a standing
+file, campaign gaps). Adding them would produce a confident-looking meaningless number.
 
 ## Running it on your own data
 

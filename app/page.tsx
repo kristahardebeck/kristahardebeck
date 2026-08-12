@@ -6,6 +6,7 @@ import DonorMovement from "@/components/DonorMovement";
 import KpiTiles from "@/components/KpiTiles";
 import OpportunityCards from "@/components/OpportunityCards";
 import RevenueTrend from "@/components/RevenueTrend";
+import RiskRegister from "@/components/RiskRegister";
 import SegmentChart from "@/components/SegmentChart";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ORG } from "@/lib/data";
@@ -154,6 +155,14 @@ export default function Page() {
           <DonorMovement />
           <ChannelMix />
         </div>
+      </section>
+
+      {/* Risk */}
+      <section>
+        <SectionHeading note="Standing checks against the donor file. Thresholds are stated on every item.">
+          Risk
+        </SectionHeading>
+        <RiskRegister />
       </section>
 
       {/* Opportunity */}

@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { dataSummaryForAI, ORG } from "@/lib/data";
+import { riskRegisterForAI } from "@/lib/risks";
 
 export const runtime = "nodejs";
 // Long enough for a considered answer; Vercel Hobby caps at 60s.
@@ -53,7 +54,11 @@ Format with Markdown — short section headings, tight paragraphs, and bulleted 
 
 <fundraising_data>
 ${dataSummaryForAI()}
-</fundraising_data>`;
+</fundraising_data>
+
+<risk_register>
+${riskRegisterForAI()}
+</risk_register>`;
 
 function errorStream(message: string, status: number): Response {
   return new Response(message, {

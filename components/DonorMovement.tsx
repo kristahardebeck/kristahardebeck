@@ -81,7 +81,7 @@ export default function DonorMovement() {
   return (
     <ChartCard
       title="Donor file movement"
-      subtitle="The file keeps growing, but acquisition is running well behind last year's pace at the halfway mark."
+      subtitle="The file keeps growing. Half-year acquisition looks low against a full prior year, but the first half only carries ~38% of annual activity — it is running ahead of seasonal pace."
       legend={SERIES.map((s) => ({ label: s.label, color: s.color }))}
       table={
         <table className="data-table">

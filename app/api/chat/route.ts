@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { dataSummaryForAI, ORG } from "@/lib/data";
+import { riskRegisterForAI } from "@/lib/risks";
 import { TOOL_DEFINITIONS, describeToolCall, runTool, toolGuidance } from "@/lib/tools";
 
 export const runtime = "nodejs";
@@ -25,7 +26,13 @@ Use Markdown sparingly — bold for figures that matter, lists only when the con
 
 <fundraising_data>
 ${dataSummaryForAI()}
-</fundraising_data>`;
+</fundraising_data>
+
+The dashboard shows this risk register alongside you. Treat it as shared context — do not contradict it, and when a question touches one of these items, reference the register's finding rather than deriving a different one.
+
+<risk_register>
+${riskRegisterForAI()}
+</risk_register>`;
 
 type WireMessage = { role: "user" | "assistant"; content: unknown };
 
