@@ -104,7 +104,7 @@ export default function AiAnalyst() {
             className={streaming ? "thinking-dot" : undefined}
           />
           <h2 className="card-title" style={{ fontSize: 16 }}>
-            AI fundraising analyst
+            AI Fundraising Analyst
           </h2>
         </div>
         <p className="card-subtitle" style={{ marginTop: 5 }}>

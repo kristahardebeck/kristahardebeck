@@ -64,7 +64,7 @@ function RevenueTooltip(props: {
 export default function RevenueTrend() {
   return (
     <ChartCard
-      title="Monthly revenue"
+      title="Monthly Revenue"
       subtitle="2026 is tracking ahead of 2025 in every closed month. December carries roughly a quarter of the year."
       legend={SERIES.map((s) => ({ label: s.label, color: s.color, shape: "line" as const }))}
       table={

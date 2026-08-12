@@ -55,7 +55,7 @@ export default function OpportunityCards() {
       </div>
 
       <section className="card">
-        <h2 className="card-title">Top donors, year to date</h2>
+        <h2 className="card-title">Top Donors, Year to Date</h2>
         <p className="card-subtitle">
           The three principal donors account for {currency(920_000)} of the {currency(1_538_000)}{" "}
           raised so far this year.

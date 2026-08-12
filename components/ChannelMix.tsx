@@ -59,7 +59,7 @@ function ChannelTooltip(props: {
 export default function ChannelMix() {
   return (
     <ChartCard
-      title="Revenue by channel"
+      title="Revenue by Channel"
       subtitle="Trailing twelve months. Major gifts produce a third of all revenue from 118 gifts."
       table={
         <table className="data-table">

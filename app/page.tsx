@@ -5,6 +5,7 @@ import ChannelMix from "@/components/ChannelMix";
 import DonorMovement from "@/components/DonorMovement";
 import KpiTiles from "@/components/KpiTiles";
 import OpportunityCards from "@/components/OpportunityCards";
+import OutreachStudio from "@/components/OutreachStudio";
 import RevenueTrend from "@/components/RevenueTrend";
 import RiskRegister from "@/components/RiskRegister";
 import SegmentChart from "@/components/SegmentChart";
@@ -90,7 +91,7 @@ export default function Page() {
               lineHeight: 1.15,
             }}
           >
-            Fundraising performance
+            Fundraising Performance
           </h1>
           <p
             style={{
@@ -123,7 +124,7 @@ export default function Page() {
 
       {/* Headline numbers */}
       <section>
-        <SectionHeading>Headline metrics</SectionHeading>
+        <SectionHeading>Headline Metrics</SectionHeading>
         <KpiTiles />
       </section>
 
@@ -173,6 +174,14 @@ export default function Page() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <OpportunityCards />
         </div>
+      </section>
+
+      {/* Outreach */}
+      <section>
+        <SectionHeading note="Turn what the data says into something you can actually send.">
+          Outreach
+        </SectionHeading>
+        <OutreachStudio />
       </section>
 
       <footer

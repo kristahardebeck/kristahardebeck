@@ -78,7 +78,7 @@ function SegmentTick(props: { x?: number; y?: number; payload?: { value?: string
 export default function SegmentChart() {
   return (
     <ChartCard
-      title="Revenue by donor segment"
+      title="Revenue by Donor Segment"
       subtitle="Seven principal donors out-give 6,842 grassroots donors — and retain at 100% against their 38%."
       table={
         <table className="data-table">

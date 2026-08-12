@@ -16,7 +16,7 @@ export default function CampaignProgress() {
 
   return (
     <ChartCard
-      title="Campaign progress to goal"
+      title="Campaign Progress to Goal"
       subtitle="Six active campaigns. Two are already past goal; planned giving has barely started."
       table={
         <table className="data-table">

@@ -54,6 +54,7 @@ that would expose it to every visitor.
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
 | **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
 | **Opportunity** | Major gift pipeline, LYBUNT and SYBUNT totals, top donors table |
+| **Outreach** | *Brainstorm Donor Outreach* — pick an audience and channel, get four distinct angles or a full draft |
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
@@ -143,6 +144,29 @@ injected into both AI prompts, so the chat cannot contradict what the dashboard 
 There is deliberately **no combined "total exposure" figure**: the items are different units
 over different horizons (one donor's renewal, one month's miss, a year of churn, a standing
 file, campaign gaps). Adding them would produce a confident-looking meaningless number.
+
+## Brainstorm Donor Outreach
+
+`POST /api/outreach` takes `{ audienceId, channel, mode, goal?, priorIdeas? }` and streams
+Markdown.
+
+Pick **who** (nine audiences: the five giving segments, LYBUNT, SYBUNT, the major gift
+pipeline, principal stewardship) and **how** (email, direct mail, phone script, event invite,
+SMS, social). Two modes:
+
+- `brainstorm` — four genuinely different *approaches*, each with the hook written out, why it
+  suits this audience citing a real number, and the risk of it landing badly.
+- `draft` — the full piece in the channel's format. If angles were brainstormed first they are
+  passed back in via `priorIdeas`, so it picks the strongest rather than starting over.
+
+Each audience carries a **brief computed in `lib/outreach.ts`** — size, average gift,
+retention, and a suggested ask derived from what that group already gives (a modest upgrade
+for active segments; a match-their-last-gift figure for lapsed donors, where the goal is the
+return rather than the increase). The brief is resolved before the request, so no tool round
+trip is needed and the copy cites true figures.
+
+The writing rules are enforced in the prompt: no manufactured urgency, no invented statistics
+or beneficiary names, and `[bracketed placeholders]` for anything the team must supply.
 
 ## Running it on your own data
 

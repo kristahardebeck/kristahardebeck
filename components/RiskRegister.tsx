@@ -52,7 +52,7 @@ export default function RiskRegister() {
         }}
       >
         <div style={{ minWidth: 0 }}>
-          <h2 className="card-title">Risk register</h2>
+          <h2 className="card-title">Risk Register</h2>
           <p className="card-subtitle">
             Computed from the data by fixed rules, not written by hand — each item states the
             threshold that triggered it. {SUMMARY.critical} critical, {SUMMARY.serious} serious,{" "}
