@@ -218,6 +218,16 @@ Dark mode is a selected set of steps validated against the dark surface — not 
 inverted light palette. The theme follows the OS by default and can be toggled;
 the choice persists in `localStorage`.
 
+Light mode sits on warm cream rather than neutral grey — `--page` `#faf4ec`, cards
+`#fffcf7`, with two low-alpha radial washes bled in from the top corners. The
+warming shifted every series-against-surface contrast by at most 0.01, so the
+validated palette above is unaffected; warm the surfaces further and it needs
+re-checking. Body text got warmer *and* darker in the process: `--text-muted` went
+from 3.41:1 to 4.80:1 on the page, clearing the 4.5:1 floor it previously missed.
+Cards clear the cream by only 1.07:1, so a brown-tinted `--card-shadow` does the
+separating. Dark mode keeps its near-black page — the washes drop to ~5% alpha and
+the shadow to `none`, since a drop shadow on `#0d0d0d` only reads as smudge.
+
 ## Scripts
 
 ```bash
