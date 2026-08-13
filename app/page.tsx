@@ -104,18 +104,6 @@ export default function Page() {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 10, flex: "none" }}>
-          <span
-            style={{
-              fontSize: 12.5,
-              color: "var(--text-muted)",
-              border: "1px solid var(--border)",
-              borderRadius: 999,
-              padding: "6px 12px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Data as of {ORG.asOf}
-          </span>
           <ThemeToggle />
         </div>
       </header>
