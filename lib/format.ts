@@ -56,3 +56,14 @@ export function formatByKind(
       return count(n);
   }
 }
+
+/**
+ * ISO date to US short form with no leading zeros: 2026-05-12 -> 5/12/2026.
+ * Returns the input unchanged if it isn't an ISO date, so bad data is visible
+ * rather than silently rendered as something wrong.
+ */
+export function shortDate(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  return `${Number(m[2])}/${Number(m[3])}/${m[1]}`;
+}

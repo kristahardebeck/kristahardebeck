@@ -85,7 +85,7 @@ function lapsedAudiences(): Audience[] {
   return [
     {
       id: "lapsed:lybunt",
-      label: "LYBUNT — lapsed last year",
+      label: "Recently lapsed — gave last year",
       group: "Lapsed",
       size: lybunt.donors,
       suggestedAsk: tidyAsk(lyAvg),
@@ -98,7 +98,7 @@ function lapsedAudiences(): Audience[] {
     },
     {
       id: "lapsed:sybunt",
-      label: "SYBUNT — lapsed two or more years",
+      label: "Long lapsed — two or more years",
       group: "Lapsed",
       size: sybunt.donors,
       suggestedAsk: tidyAsk(syAvg),

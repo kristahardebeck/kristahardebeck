@@ -35,7 +35,7 @@ const STANDING = [
 const OPENERS = [
   "Do we hit $4M this year if December comes in 15% soft?",
   "Is Classrooms for Wakiso going to make its goal?",
-  "What's 15% of the LYBUNT file worth, and is chasing it better than acquisition?",
+  "What are 15% of recently lapsed donors worth, and is chasing them better than acquisition?",
   "Which segment earns the most per hour of staff time?",
 ];
 
@@ -217,9 +217,9 @@ export default function AnalystChat() {
             </h2>
           </div>
           <p className="card-subtitle" style={{ marginTop: 5 }}>
-            Run a standing analysis or just ask. Real calculations happen against the donor
-            file — projections, pacing, recapture math — and the conversation remembers them,
-            so follow-ups build on what was already worked out.
+            Real calculations happen against the donor file — projections, pacing, recapture
+            math — and the conversation remembers them, so follow-ups build on what was already
+            worked out.
           </p>
         </div>
 
@@ -273,7 +273,7 @@ export default function AnalystChat() {
               color: "var(--text-secondary)",
             }}
           >
-Or ask something directly — then keep going with follow-ups:
+Ask something directly, then keep going with follow-ups:
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {OPENERS.map((q) => (

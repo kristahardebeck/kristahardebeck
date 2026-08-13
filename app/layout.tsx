@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Meridian Hope Foundation — Fundraising Dashboard",
+  title: "Schutz Foundation — Fundraising Dashboard",
   description:
-    "Live fundraising performance for the Meridian Hope Foundation, with an analyst that reads the underlying donor, campaign and channel data.",
+    "Live fundraising performance for the Schutz Foundation, with an analyst that reads the underlying donor, campaign and channel data.",
 };
 
 // Applied before paint so the page never flashes the wrong theme.

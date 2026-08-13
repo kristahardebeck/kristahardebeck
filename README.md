@@ -1,4 +1,4 @@
-# Meridian Hope Foundation — Fundraising Dashboard
+# Schutz Foundation — Fundraising Dashboard
 
 A deployable nonprofit fundraising dashboard: donor segments, campaign progress,
 retention, channel mix, and lapsed-donor opportunity — plus an analyst that
@@ -48,13 +48,22 @@ that would expose it to every visitor.
 
 | Section | Contents |
 |---|---|
-| **Headline metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
+| **Headline Metrics** | Six KPIs — YTD raised, retention, average gift, recurring revenue, active donors, cost to raise $1 — each against the prior comparable period |
 | **Analysis** | *Fundraising Analyst* — one conversational analyst with tool calling, with three standing analyses as conversation starters |
-| **Risk** | Computed risk register: six standing checks with severity, dollar exposure and the triggering threshold |
 | **Revenue** | Monthly revenue across three years; progress-to-goal meters for six live campaigns |
-| **Donors** | Revenue by segment, donor file movement (retained / acquired / reactivated), revenue by channel |
-| **Opportunity** | Major gift pipeline, LYBUNT and SYBUNT totals, top donors table |
+| **Donors** | Revenue by segment and revenue by channel |
+| **Opportunity** | Major gift pipeline, Recently Lapsed and Long Lapsed totals, top donors table |
 | **Outreach** | *Brainstorm Donor Outreach* — pick an audience and channel, get four distinct angles or a full draft |
+| **Risk** | Computed risk register: six standing checks with severity, dollar exposure and the triggering threshold |
+
+Sections appear in that order. Risk sits last: it is the most alarming panel on the page
+and reads better as the conclusion of the numbers above it than as an interruption near the
+top.
+
+The lapsed-donor groups are labelled **Recently Lapsed** (gave last year, not this year) and
+**Long Lapsed** (gave in some earlier year, not the last two) rather than the sector's LYBUNT
+and SYBUNT jargon. The data keys in `lib/data.ts` are still `lybunt` / `sybunt`, so a CRM
+adapter written against the standard terms still fits.
 
 Every chart has a **Chart / Table** toggle — the same numbers as an accessible table.
 
@@ -75,7 +84,7 @@ keeping everything it already worked out.
 | `project_year_end` | Full-year projection from six months of actuals, with second-half and December adjustments, against an optional target |
 | `get_campaign_detail` | Gap to goal, days left, required daily rate, gifts needed at the current average |
 | `get_segment_detail` | Average gift, revenue share, retention, revenue per retained donor |
-| `estimate_recapture` | Value of winning back LYBUNT/SYBUNT, or closing pipeline, at a given rate |
+| `estimate_recapture` | Value of winning back recently or long lapsed donors, or closing pipeline, at a given rate |
 | `compare_months` | Month-over-month or range totals across years |
 | `get_channel_mix` | Revenue, gift count, average gift and share per channel |
 
@@ -120,7 +129,7 @@ rather than taken on trust.
 | Revenue concentration | Critical above 50% of YTD in the top three donors; serious above 35% |
 | Single-month dependency | Serious when one month carries ≥25% of annual revenue |
 | Largest-segment churn | Serious when the biggest segment by donor count retains under 45% |
-| Unworked lapsed file | Serious when LYBUNT exceeds 25% of YTD revenue |
+| Unworked lapsed file | Serious when the recently lapsed file exceeds 25% of YTD revenue |
 | Campaigns behind pace | Flagged under 75% of goal with ≤190 days left |
 | Acquisition pace | Compared against seasonally-adjusted expectation, not a flat half-year |
 
@@ -136,8 +145,8 @@ file, campaign gaps). Adding them would produce a confident-looking meaningless 
 `POST /api/outreach` takes `{ audienceId, channel, mode, goal?, priorIdeas? }` and streams
 Markdown.
 
-Pick **who** (nine audiences: the five giving segments, LYBUNT, SYBUNT, the major gift
-pipeline, principal stewardship) and **how** (email, direct mail, phone script, event invite,
+Pick **who** (nine audiences: the five giving segments, recently lapsed, long lapsed, the
+major gift pipeline, principal stewardship) and **how** (email, direct mail, phone script, event invite,
 SMS, social). Two modes:
 
 - `brainstorm` — four genuinely different *approaches*, each with the hook written out, why it
@@ -171,6 +180,10 @@ TOP_DONORS        TopDonor[]         name, lifetime, ytd, segment, firstGift, la
 KPIS              Kpi[]              label, value, prior, format, note
 LAPSED            { lybunt, sybunt, pipeline }
 ```
+
+`DONOR_MOVEMENT` no longer has a chart of its own, but it is still exported and still goes
+into `dataSummaryForAI()` — the analyst reasons about acquisition and lapse counts from it,
+and the acquisition-pace risk check reads it directly. Keep it populated.
 
 Also update `dataSummaryForAI()` so the analyst sees the same figures the charts do
 — it is the single source the model reads from.

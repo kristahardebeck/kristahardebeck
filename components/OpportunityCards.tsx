@@ -1,5 +1,5 @@
 import { LAPSED, TOP_DONORS } from "@/lib/data";
-import { count, currency } from "@/lib/format";
+import { count, currency, shortDate } from "@/lib/format";
 
 /**
  * Three hero figures the development team acts on directly, plus the top-donor
@@ -80,7 +80,7 @@ export default function OpportunityCards() {
                   <td className="num">{currency(d.ytd)}</td>
                   <td className="num">{currency(d.lifetime)}</td>
                   <td className="num">{d.firstGift}</td>
-                  <td className="num">{d.lastGift}</td>
+                  <td className="num">{shortDate(d.lastGift)}</td>
                 </tr>
               ))}
             </tbody>

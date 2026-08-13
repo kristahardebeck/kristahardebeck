@@ -95,12 +95,12 @@ export const TOOL_DEFINITIONS = [
           type: "string",
           enum: ["lybunt", "sybunt", "pipeline"],
           description:
-            "lybunt = gave last year, not this year. sybunt = gave in an earlier year, not the last two. pipeline = open major gift proposals.",
+            "lybunt = recently lapsed (gave last year, not this year). sybunt = long lapsed (gave in an earlier year, not the last two). pipeline = open major gift proposals.",
         },
         rate_pct: {
           type: "number",
           description:
-            "Assumed success rate as a percent, e.g. 15 for 15%. Typical LYBUNT reactivation runs 10-20%; major gift close rates run 30-50%.",
+            "Assumed success rate as a percent, e.g. 15 for 15%. Typical reactivation of recently lapsed donors runs 10-20%; major gift close rates run 30-50%.",
         },
       },
       required: ["pool", "rate_pct"],

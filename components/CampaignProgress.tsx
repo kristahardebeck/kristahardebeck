@@ -2,7 +2,7 @@
 
 import ChartCard from "./ChartCard";
 import { CAMPAIGNS } from "@/lib/data";
-import { count, currency, percent } from "@/lib/format";
+import { count, currency, percent, shortDate } from "@/lib/format";
 
 /**
  * Progress-to-goal is one measure against a fixed target per row, so meters
@@ -17,7 +17,7 @@ export default function CampaignProgress() {
   return (
     <ChartCard
       title="Campaign Progress to Goal"
-      subtitle="Six active campaigns. Two are already past goal; planned giving has barely started."
+      subtitle="Six active campaigns. Two are already past goal."
       table={
         <table className="data-table">
           <thead>
@@ -40,7 +40,7 @@ export default function CampaignProgress() {
                 <td className="num">{currency(c.goal)}</td>
                 <td className="num">{percent(c.raised / c.goal, 0)}</td>
                 <td className="num">{count(c.donors)}</td>
-                <td className="num">{c.closes}</td>
+                <td className="num">{shortDate(c.closes)}</td>
               </tr>
             ))}
           </tbody>
@@ -75,7 +75,7 @@ export default function CampaignProgress() {
                     {c.name}
                   </div>
                   <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 1 }}>
-                    {c.channel} · {count(c.donors)} donors · closes {c.closes}
+                    {c.channel} · {count(c.donors)} donors · closes {shortDate(c.closes)}
                   </div>
                 </div>
 

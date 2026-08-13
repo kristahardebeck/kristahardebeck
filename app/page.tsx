@@ -1,7 +1,6 @@
 import AnalystChat from "@/components/AnalystChat";
 import CampaignProgress from "@/components/CampaignProgress";
 import ChannelMix from "@/components/ChannelMix";
-import DonorMovement from "@/components/DonorMovement";
 import KpiTiles from "@/components/KpiTiles";
 import OpportunityCards from "@/components/OpportunityCards";
 import OutreachStudio from "@/components/OutreachStudio";
@@ -100,7 +99,7 @@ export default function Page() {
               maxWidth: 620,
             }}
           >
-            {ORG.mission} {ORG.asOfLabel} · fiscal year runs January to December.
+            {ORG.mission}
           </p>
         </div>
 
@@ -129,7 +128,7 @@ export default function Page() {
 
       {/* AI analyst */}
       <section>
-        <SectionHeading note="Run a standing analysis or ask your own question. Answers are computed from the donor file, not estimated.">
+        <SectionHeading note="Run a standing analysis or ask your own question.">
           Analysis
         </SectionHeading>
         <AnalystChat />
@@ -149,17 +148,8 @@ export default function Page() {
         <SectionHeading>Donors</SectionHeading>
         <div className="chart-grid">
           <SegmentChart />
-          <DonorMovement />
           <ChannelMix />
         </div>
-      </section>
-
-      {/* Risk */}
-      <section>
-        <SectionHeading note="Standing checks against the donor file. Thresholds are stated on every item.">
-          Risk
-        </SectionHeading>
-        <RiskRegister />
       </section>
 
       {/* Opportunity */}
@@ -180,6 +170,12 @@ export default function Page() {
         <OutreachStudio />
       </section>
 
+      {/* Risk */}
+      <section>
+        <SectionHeading>Risk</SectionHeading>
+        <RiskRegister />
+      </section>
+
       <footer
         style={{
           borderTop: "1px solid var(--grid)",
@@ -190,7 +186,7 @@ export default function Page() {
         }}
       >
         <p style={{ margin: 0 }}>
-          Demonstration dashboard. The Meridian Hope Foundation and every donor, campaign and
+          Demonstration dashboard. The Schutz Foundation and every donor, campaign and
           figure on this page are fictional. Replace <code>lib/data.ts</code> with your CRM adapter
           to run it on real data.
         </p>

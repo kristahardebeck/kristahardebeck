@@ -1,5 +1,5 @@
 /**
- * Fundraising dataset for the Meridian Hope Foundation demo.
+ * Fundraising dataset for the Schutz Foundation demo.
  *
  * Everything here is fictional but internally consistent: the monthly series,
  * campaign totals, segment totals and channel mix all reconcile against each
@@ -11,8 +11,8 @@
  */
 
 export const ORG = {
-  name: "Meridian Hope Foundation",
-  mission: "Girls' secondary education across Uganda.",
+  name: "Schutz Foundation",
+  mission: "Fundraising to support girls' secondary education in Uganda",
   fiscalYear: "Calendar year (Jan–Dec)",
   asOf: "2026-06-30",
   asOfLabel: "Through June 30, 2026",
@@ -289,13 +289,13 @@ export const KPIS: Kpi[] = [
 
 export const LAPSED = {
   lybunt: {
-    label: "LYBUNT",
+    label: "Recently Lapsed",
     description: "Gave last year but not this year",
     donors: 2_847,
     value: 604_000,
   },
   sybunt: {
-    label: "SYBUNT",
+    label: "Long Lapsed",
     description: "Gave in some prior year but not the last two",
     donors: 4_116,
     value: 391_000,

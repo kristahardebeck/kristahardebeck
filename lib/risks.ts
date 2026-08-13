@@ -184,9 +184,9 @@ function lapsedRisk(): Risk {
     title: "Lapsed donors sitting unworked",
     severity,
     exposure: lybunt.value,
-    exposureLabel: `${money(lybunt.value)} in the LYBUNT file`,
+    exposureLabel: `${money(lybunt.value)} in recently lapsed donors`,
     finding: `${lybunt.donors.toLocaleString("en-US")} donors who gave last year have not given this year, worth ${money(lybunt.value)} — ${pct(share)} of everything raised so far. No campaign in the active list targets them.`,
-    rule: "Serious when the LYBUNT file exceeds 25% of year-to-date revenue.",
+    rule: "Serious when recently lapsed donors exceed 25% of year-to-date revenue.",
     action: `A reactivation appeal converting 15% returns about ${money(recoverable)}, and those donors re-enter the retention base for next year.`,
   };
 }
