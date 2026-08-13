@@ -164,21 +164,6 @@ export default function Page() {
         <RiskRegister />
       </section>
 
-      <footer
-        style={{
-          borderTop: "1px solid var(--grid)",
-          paddingTop: 20,
-          fontSize: 12.5,
-          color: "var(--text-muted)",
-          lineHeight: 1.6,
-        }}
-      >
-        <p style={{ margin: 0 }}>
-          Demonstration dashboard. The Schutz Foundation and every donor, campaign and
-          figure on this page are fictional. Replace <code>lib/data.ts</code> with your CRM adapter
-          to run it on real data.
-        </p>
-      </footer>
     </main>
   );
 }
